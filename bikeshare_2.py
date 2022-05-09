@@ -18,16 +18,17 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     while True:
-        print('Which city do you want to analyze?' + 'Options are: ' + CITY_DATA[0] + ' ' + CITY_DATA[1] + CITY_DATA[2])
+        print('Which city do you want to analyze? Options are:\n')
+        for k in CITY_DATA.keys():
+            print(k)
+        print(' ')
         city = input()
-        if city not in CITY_DATA:
-            print('Unavailable data. Please, check for typos.')
-            print('Please enter a valid city.')
-            print('Options are: ' + CITY_DATA[0] + ' ' + CITY_DATA[1] + ' ' + CITY_DATA[2])
+        if city not in CITY_DATA.keys():
+            print('\nUnavailable data. Please, check for typos.')
         else:
             break
-    print('You have selected' + city + '!')
-    print('Loading the database')
+    print('\nYou have selected' + ' ' + city + '!')
+    print('\t...Loading the database...')
 
     # get user input for month (all, january, february, ... , june)
 
