@@ -6,6 +6,20 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+MONTH_DIC = { 0 :'all',
+              1 :'january',
+              2 :'february',
+              3 :'march',
+              4 :'april',
+              5 :'may',
+              6 :'june',
+              7 :'july',
+              8 :'august',
+              9 :'september',
+              10 :'october',
+              11 :'november',
+              12 :'december' }
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -21,16 +35,24 @@ def get_filters():
         print('Which city do you want to analyze? Options are: ' + ', '.join(CITY_DATA))
         print(' ')
         city = input()
+        Ccity = city.capitalize()
         if city not in CITY_DATA.keys():
             print('\nUnavailable data. Please, check for typos.')
         else:
             break
-    print('\nYou have selected' + ' ' + city + '!')
+    print('\nYou have selected ' + Ccity + '!')
     print('\t...Loading the database...')
 
     # get user input for month (all, january, february, ... , june)
     while True:
-        print('Input month')
+        print('Input month by its number, use 0 for loading all.')
+        print(' ')
+        month = int(input())
+        if month not in MONTH_DIC.keys():
+            print('\nMonth should be a number ranged from 1 to 12. Use 0 for loading all.')
+        else:
+            break
+    print('\nYou have selected ' + MONTH_DIC[month].capitalize() + ' in ' + Ccity)
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
 
