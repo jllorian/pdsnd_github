@@ -55,9 +55,22 @@ def get_filters():
     print('\nYou have selected ' + MONTH_DIC[month].capitalize() + ' in ' + Ccity)
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
+    WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
+    while True:
+        print('Input day of week by its number, use 0 for loading all')
+        print(' ')
+        day = int(input())
+        if day not in range(len(WEEK_DAYS)):
+            print('\nWeek day should be a number ranged from 1 to 7. Use 0 for loading all.')
+        else:
+            break
+    print('\nYou have selected ' + WEEK_DAYS[day].capitalize() +  ' of ' + MONTH_DIC[month].capitalize() + ' in ' + Ccity)
 
-
+    # convert variables to str, return.
     print('-'*40)
+    city = str(Ccity)
+    month = str(MONTH_DIC[month])
+    day = str(WEEK_DAYS[day])
     return city, month, day
 
 
