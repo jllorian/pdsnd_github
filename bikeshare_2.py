@@ -35,12 +35,11 @@ def get_filters():
         print('Which city do you want to analyze? Options are: ' + ', '.join(CITY_DATA))
         print(' ')
         city = input()
-        Ccity = city.capitalize()
         if city not in CITY_DATA.keys():
             print('\nUnavailable data. Please, check for typos.')
         else:
             break
-    print('\nYou have selected ' + Ccity + '!')
+    print('\nYou have selected ' + city.capitalize() + '!')
     print('\t...Loading the database...')
 
     # get user input for month (all, january, february, ... , june)
@@ -52,7 +51,7 @@ def get_filters():
             print('\nMonth should be a number ranged from 1 to 12. Use 0 for loading all.')
         else:
             break
-    print('\nYou have selected ' + MONTH_DIC[month].capitalize() + ' in ' + Ccity)
+    print('\nYou have selected ' + MONTH_DIC[month].capitalize() + ' in ' + city.capitalize())
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -64,11 +63,10 @@ def get_filters():
             print('\nWeek day should be a number ranged from 1 to 7. Use 0 for loading all.')
         else:
             break
-    print('\nYou have selected ' + WEEK_DAYS[day].capitalize() +  ' of ' + MONTH_DIC[month].capitalize() + ' in ' + Ccity)
+    print('\nYou have selected ' + WEEK_DAYS[day].capitalize() +  ' of ' + MONTH_DIC[month].capitalize() + ' in ' + city.capitalize())
 
     # convert variables to str, return.
     print('-'*40)
-    city = str(Ccity)
     month = str(MONTH_DIC[month])
     day = str(WEEK_DAYS[day])
     return city, month, day
@@ -85,8 +83,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-
-
+    df = pd.read_csv(CITY_DATA.get(city).index(''))
     return df
 
 
