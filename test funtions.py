@@ -39,7 +39,7 @@ def get_filters():
             print('\nUnavailable data. Please, check for typos.')
         else:
             break
-    print('\nYou have selected ' + city.capitalize() + '!')
+    print('\nYou have selected ' + city.title() + '!')
     print('\t...Loading the database...')
 
     # get user input for month (all, january, february, ... , june)
@@ -63,12 +63,8 @@ def get_filters():
             print('\nWeek day should be a number ranged from 1 to 7. Use 0 for loading all.')
         else:
             break
-    print('\nYou have selected ' + WEEK_DAYS[day].capitalize() +  ' of ' + MONTH_DIC[month].capitalize() + ' in ' + city.capitalize())
-
-    # convert variables to str, return.
+    print('\nYou have selected every ' + WEEK_DAYS[day].capitalize() +  ' of ' + MONTH_DIC[month].capitalize() + ' in ' + city.capitalize())
     print('-'*40)
-    month = str(MONTH_DIC[month])
-    day = str(WEEK_DAYS[day])
     return city, month, day
 
 def load_data(city, month, day):
@@ -77,21 +73,42 @@ def load_data(city, month, day):
 
     Args:
         (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+        (int) month - number of the month to filter by, or "all" to apply no month filter
+        (int) day - number of the day of week to filter by, or "all" to apply no day filter
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
     df = pd.read_csv(CITY_DATA.get(city), index_col= 0, parse_dates=['Start Time', 'End Time'])
-    df["Start Day"] = df['Start Time'].map(lambda x: x.day)
-    df["Start Month"] = df['Start Time'].map(lambda x: x.month)
-    df["Start Year"] = df['Start Time'].map(lambda x: x.year)
+    if month != 0:
+        df = df[df['Start Time'].dt.month == month]
+    if day !=0:
+        df = df[df['Start Time'].dt.dayofweek == day]
     return df
+
+def describe_data(df):
+    # Shows a general insight about the selected data.
+    # Sort the DataFrame by Start Time
+    df = df.sort_values(by='Start Time', ascending=True)
+    print("Displaying general insights")
+    print('-'*40)
+    print("\n    1. First Entry")
+    print(df.head(1))
+    print()
+    print("\n    2. Last Entry")
+    print(df.tail(1))
+    print()
+    print("\n    3. General Statistics")
+    print(df.describe())
+    print('-'*40)
+    return
 
 def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
+        
+        #print(df.dtypes)
+        describe_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
