@@ -20,6 +20,8 @@ MONTH_DIC = { 0 :'all',
               11 :'november',
               12 :'december' }
 
+WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -44,9 +46,13 @@ def get_filters():
 
     # get user input for month (all, january, february, ... , june)
     while True:
-        print('Input month by its number, use 0 for loading all.')
+        print('\nInput month by its number, use 0 for loading all.')
         print(' ')
-        month = int(input())
+        try:
+            month = int(input())
+        except ValueError:
+            print('\nPlease, enter a number between 0 and 12')
+            continue
         if month not in MONTH_DIC.keys():
             print('\nMonth should be a number ranged from 1 to 12. Use 0 for loading all.')
         else:
@@ -54,11 +60,14 @@ def get_filters():
     print('\nYou have selected ' + MONTH_DIC[month].capitalize() + ' in ' + city.capitalize())
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
-    WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
     while True:
-        print('Input day of week by its number, use 0 for loading all')
+        print('\nInput day of week by its number, use 0 for loading all')
         print(' ')
-        day = int(input())
+        try:
+            day = int(input())
+        except ValueError:
+            print('\nPlease, enter a number between 0 and 7')
+            continue
         if day not in range(len(WEEK_DAYS)):
             print('\nWeek day should be a number ranged from 1 to 7. Use 0 for loading all.')
         else:
@@ -80,53 +89,74 @@ def load_data(city, month, day):
     """
     df = pd.read_csv(CITY_DATA.get(city), index_col= 0, parse_dates=['Start Time', 'End Time'])
     if month != 0:
-        df = df[df['Start Time'].dt.month == month]
+        df = df[df['Start Time'].dt.month == month] # dt pandas date time index
     if day !=0:
-        df = df[df['Start Time'].dt.dayofweek == day]
+        df = df[df['Start Time'].dt.dayofweek == day-1] # dayoftheweek starts on Monday = 0
     return df
 
 def describe_data(df):
     # Shows a general insight about the selected data.
     # Sort the DataFrame by Start Time
-    df = df.sort_values(by='Start Time', ascending=True)
-    print("Displaying general insights")
-    print('-'*40)
-    print("\n    1. First Entry")
-    print(df.head(1))
-    print()
-    print("\n    2. Last Entry")
-    print(df.tail(1))
-    print()
-    print("\n    3. General Statistics")
-    print(df.describe())
-    print('-'*40)
-    return
+    print('\nDo you want to visualize general insights?\n')
+    print('press "n" to jump to the next option, press any key to continue.\n')
+    user_input = input()
+    if user_input != 'n':
+        print("\nDisplaying general insights")
+        print('-'*40)
+        start_time = time.time()
+        df = df.sort_values(by='Start Time', ascending=True)
+        print("\n    1. First Entry\n")
+        print(df.head(1))
+        print()
+        print("\n    2. Last Entry\n")
+        print(df.tail(1))
+        print()
+        print("\n    3. General Statistics\n")
+        print(df.describe())
+        print('-'*40)
+        print("\nThis took %s seconds." % (time.time() - start_time))
+        print('-'*40)
 
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
+    """Displays statistics on the most frequent times of travel.
+    
+    Usinge the mode of a distribution: value_counts() funtion and idxmax()
+    instead of mode() to get only the value without type.
+    
+    """
+    print('\nDo you want to visualize The Most Frequent Times of Travel?\n')
+    print('press "n" to jump to the next option, press any key to continue.\n')
+    user_input = input()
+    if user_input != 'n':
+        print('\nCalculating The Most Frequent Times of Travel...\n')
+        start_time = time.time()
 
-    print('\nCalculating The Most Frequent Times of Travel...\n')
-    start_time = time.time()
-
-    # display the most common month
-
-
-    # display the most common day of week
-
-
-    # display the most common start hour
-
-
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+        # display the most common month
+        mode_month = df['Start Time'].dt.month.value_counts().idxmax()
+        print('During the selected range the most common month is...\n')
+        print('    ' + MONTH_DIC[mode_month].capitalize())
+        # display the most common day of week
+        mode_day= df['Start Time'].dt.dayofweek.value_counts().idxmax()
+        print('\nDuring the selected range the most common day of week is...\n')
+        print('    ' + WEEK_DAYS[mode_day + 1].capitalize())
+        # display the most common start hour
+        mode_hour = df['Start Time'].dt.hour.value_counts().idxmax()
+        print('\nDuring the selected range the most common start hour is...\n')
+        if int(mode_hour) < 12:
+            print('    ' + str(mode_hour) + ' AM\n')
+        else:
+            print('    ' + str(mode_hour) + ' PM\n')
+        print('-'*40)
+        print("\nThis took %s seconds." % (time.time() - start_time))
+        print('-'*40)
 
 def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
         
-        #print(df.dtypes)
         describe_data(df)
+        time_stats(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
