@@ -186,8 +186,52 @@ def station_stats(df):
         combi_station = df.value_counts(['Start Station', 'End Station']).idxmax()
         print('\nDuring the selected range the most common combination of ')
         print('Start and End stations is...\n')
-        print('    ' + str(combi_station))
+        print('    ' + ', '.join([str(i) for i in combi_station]))
 
+        print('-'*40)
+        print("\nThis took %s seconds." % (time.time() - start_time))
+        print('-'*40)
+
+def trip_duration_stats(df):
+    """Displays statistics on the total and average trip duration."""
+
+    # Get user confirmation
+    print('\nDo you want to visualize Travel Time Stats?\n')
+    print('press "n" to jump to the next option, press any key to continue.\n')
+    user_input = input()
+    if user_input != 'n':
+        print('\nCalculating Trip Duration...\n')
+        start_time = time.time()
+
+        # Empty dictionaries for total travel time & mean time
+        travel_time = {}
+        mean_time = {}
+
+        # Calculate total travel time
+        travel_time['seconds'] = round(df['Trip Duration'].sum(), 2)
+        travel_time['minutes'] = round(travel_time['seconds'] / 60, 2)
+        travel_time['hours'] = round(travel_time['minutes'] / 60, 2)
+        
+        # Display total travel time
+        print('For the selected range the total travel time is...\n')
+        print('-'* max(len(k) for k in travel_time))
+        for k in travel_time.keys():
+            print('{:<8} {:<8}'.format(k, travel_time[k]))
+        print('-'* max(len(k) for k in travel_time))
+
+        # Calculate mean travel time
+        mean_time['seconds'] = round(df['Trip Duration'].mean(), 2)
+        mean_time['minutes'] = round(mean_time['seconds'] / 60, 2)
+        mean_time['hours'] = round(mean_time['minutes'] / 60, 2)
+
+        # display mean travel time
+        print('\nFor the selected range the mean travel time is...\n')
+        print('-'* max(len(k) for k in mean_time))
+        for k in mean_time.keys():
+            print('{:<8} {:<8}'.format(k, mean_time[k]))
+        print('-'* max(len(k) for k in mean_time))
+
+        print('-'*40)
         print("\nThis took %s seconds." % (time.time() - start_time))
         print('-'*40)
 
@@ -199,11 +243,11 @@ def main():
         describe_data(df)
         time_stats(df)
         station_stats(df)
+        trip_duration_stats(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
-
 
 if __name__ == "__main__":
 	main()

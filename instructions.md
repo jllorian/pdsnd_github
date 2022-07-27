@@ -8,7 +8,7 @@ To solve this exercise I need to answer the following questions:
 ## 2 Popular stations and trip
 - most common start station
 - most common end station
-- most common hour of day
+- most common combination of start and end stations
 
 ## 3 Trip duration
 - total travel time
