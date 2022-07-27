@@ -96,7 +96,6 @@ def load_data(city, month, day):
 
 def describe_data(df):
     # Shows a general insight about the selected data.
-    # Sort the DataFrame by Start Time
     print('\nDo you want to visualize general insights?\n')
     print('press "n" to jump to the next option, press any key to continue.\n')
     user_input = input()
@@ -104,15 +103,22 @@ def describe_data(df):
         print("\nDisplaying general insights")
         print('-'*40)
         start_time = time.time()
+        
+        # Sort the DataFrame by Start Time
         df = df.sort_values(by='Start Time', ascending=True)
+        
+        # Displays first & last entry
         print("\n    1. First Entry\n")
         print(df.head(1))
         print()
         print("\n    2. Last Entry\n")
         print(df.tail(1))
         print()
+
+        # Displays general statistics
         print("\n    3. General Statistics\n")
         print(df.describe())
+
         print('-'*40)
         print("\nThis took %s seconds." % (time.time() - start_time))
         print('-'*40)
@@ -124,6 +130,8 @@ def time_stats(df):
     instead of mode() to get only the value without type.
     
     """
+    
+    # Get user confirmation
     print('\nDo you want to visualize The Most Frequent Times of Travel?\n')
     print('press "n" to jump to the next option, press any key to continue.\n')
     user_input = input()
@@ -135,10 +143,12 @@ def time_stats(df):
         mode_month = df['Start Time'].dt.month.value_counts().idxmax()
         print('During the selected range the most common month is...\n')
         print('    ' + MONTH_DIC[mode_month].capitalize())
+
         # display the most common day of week
         mode_day= df['Start Time'].dt.dayofweek.value_counts().idxmax()
         print('\nDuring the selected range the most common day of week is...\n')
         print('    ' + WEEK_DAYS[mode_day + 1].capitalize())
+
         # display the most common start hour
         mode_hour = df['Start Time'].dt.hour.value_counts().idxmax()
         print('\nDuring the selected range the most common start hour is...\n')
@@ -146,7 +156,38 @@ def time_stats(df):
             print('    ' + str(mode_hour) + ' AM\n')
         else:
             print('    ' + str(mode_hour) + ' PM\n')
+
         print('-'*40)
+        print("\nThis took %s seconds." % (time.time() - start_time))
+        print('-'*40)
+
+def station_stats(df):
+    """Displays statistics on the most popular stations and trip."""
+
+    # Get user confirmation
+    print('\nDo you want to visualize The Most Popular Stations and Trip?\n')
+    print('press "n" to jump to the next option, press any key to continue.\n')
+    user_input = input()
+    if user_input != 'n':
+        print('\nCalculating The Most Popular Stations and Trip...\n')
+        start_time = time.time()
+
+        # display most commonly used start station
+        start_station = df['Start Station'].value_counts().idxmax()
+        print('During the selected range the most common Start Station is...\n')
+        print('    ' + start_station)
+
+        # display most commonly used end station
+        end_station = df['End Station'].value_counts().idxmax()
+        print('\nDuring the selected range the most common End Station is...\n')
+        print('    ' + end_station)
+
+        # display most frequent combination of start station and end station trip
+        combi_station = df.value_counts(['Start Station', 'End Station']).idxmax()
+        print('\nDuring the selected range the most common combination of ')
+        print('Start and End stations is...\n')
+        print('    ' + str(combi_station))
+
         print("\nThis took %s seconds." % (time.time() - start_time))
         print('-'*40)
 
@@ -157,6 +198,7 @@ def main():
         
         describe_data(df)
         time_stats(df)
+        station_stats(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
