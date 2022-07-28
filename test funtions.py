@@ -96,32 +96,29 @@ def load_data(city, month, day):
 
 def describe_data(df):
     # Shows a general insight about the selected data.
-    print('\nDo you want to visualize general insights?\n')
-    print('press "n" to jump to the next option, press any key to continue.\n')
-    user_input = input()
-    if user_input != 'n':
-        print("\nDisplaying general insights")
-        print('-'*40)
-        start_time = time.time()
-        
-        # Sort the DataFrame by Start Time
-        df = df.sort_values(by='Start Time', ascending=True)
-        
-        # Displays first & last entry
-        print("\n    1. First Entry\n")
-        print(df.head(1))
-        print()
-        print("\n    2. Last Entry\n")
-        print(df.tail(1))
-        print()
 
-        # Displays general statistics
-        print("\n    3. General Statistics\n")
-        print(df.describe())
-
-        print('-'*40)
-        print("\nThis took %s seconds." % (time.time() - start_time))
-        print('-'*40)
+    print("\nDisplaying general insights")
+    print('-'*40)
+    start_time = time.time()
+    
+    # Sort the DataFrame by Start Time
+    df = df.sort_values(by='Start Time', ascending=True)
+    
+    # Displays first & last entry
+    print("\n    1. First Entry\n")
+    print(df.head(1))
+    print()
+    print("\n    2. Last Entry\n")
+    print(df.tail(1))
+    print()
+    
+    # Displays general statistics
+    print("\n    3. General Statistics\n")
+    print(df.describe())
+    
+    print('-'*40)
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-'*40)
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel.
@@ -131,119 +128,130 @@ def time_stats(df):
     
     """
     
-    # Get user confirmation
-    print('\nDo you want to visualize The Most Frequent Times of Travel?\n')
-    print('press "n" to jump to the next option, press any key to continue.\n')
-    user_input = input()
-    if user_input != 'n':
-        print('\nCalculating The Most Frequent Times of Travel...\n')
-        start_time = time.time()
+    print('\nCalculating The Most Frequent Times of Travel...\n')
+    start_time = time.time()
 
-        # display the most common month
-        mode_month = df['Start Time'].dt.month.value_counts().idxmax()
-        print('During the selected range the most common month is...\n')
-        print('    ' + MONTH_DIC[mode_month].capitalize())
+    # display the most common month
+    mode_month = df['Start Time'].dt.month.value_counts().idxmax()
+    print('During the selected range the most common month is...\n')
+    print('    ' + MONTH_DIC[mode_month].capitalize())
 
-        # display the most common day of week
-        mode_day= df['Start Time'].dt.dayofweek.value_counts().idxmax()
-        print('\nDuring the selected range the most common day of week is...\n')
-        print('    ' + WEEK_DAYS[mode_day + 1].capitalize())
+    # display the most common day of week
+    mode_day= df['Start Time'].dt.dayofweek.value_counts().idxmax()
+    print('\nDuring the selected range the most common day of week is...\n')
+    print('    ' + WEEK_DAYS[mode_day + 1].capitalize())
 
-        # display the most common start hour
-        mode_hour = df['Start Time'].dt.hour.value_counts().idxmax()
-        print('\nDuring the selected range the most common start hour is...\n')
-        if int(mode_hour) < 12:
-            print('    ' + str(mode_hour) + ' AM\n')
-        else:
-            print('    ' + str(mode_hour) + ' PM\n')
+    # display the most common start hour
+    mode_hour = df['Start Time'].dt.hour.value_counts().idxmax()
+    print('\nDuring the selected range the most common start hour is...\n')
+    if int(mode_hour) < 12:
+        print('    ' + str(mode_hour) + ' AM\n')
+    else:
+        print('    ' + str(mode_hour) + ' PM\n')
 
-        print('-'*40)
-        print("\nThis took %s seconds." % (time.time() - start_time))
-        print('-'*40)
+    print('-'*40)
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-'*40)
 
 def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
 
-    # Get user confirmation
-    print('\nDo you want to visualize The Most Popular Stations and Trip?\n')
-    print('press "n" to jump to the next option, press any key to continue.\n')
-    user_input = input()
-    if user_input != 'n':
-        print('\nCalculating The Most Popular Stations and Trip...\n')
-        start_time = time.time()
-
-        # display most commonly used start station
-        start_station = df['Start Station'].value_counts().idxmax()
-        print('During the selected range the most common Start Station is...\n')
-        print('    ' + start_station)
-
-        # display most commonly used end station
-        end_station = df['End Station'].value_counts().idxmax()
-        print('\nDuring the selected range the most common End Station is...\n')
-        print('    ' + end_station)
-
-        # display most frequent combination of start station and end station trip
-        combi_station = df.value_counts(['Start Station', 'End Station']).idxmax()
-        print('\nDuring the selected range the most common combination of ')
-        print('Start and End stations is...\n')
-        print('    ' + ', '.join([str(i) for i in combi_station]))
-
-        print('-'*40)
-        print("\nThis took %s seconds." % (time.time() - start_time))
-        print('-'*40)
+    print('\nCalculating The Most Popular Stations and Trip...\n')
+    start_time = time.time()
+    
+    # display most commonly used start station
+    start_station = df['Start Station'].value_counts().idxmax()
+    print('During the selected range the most common Start Station is...\n')
+    print('    ' + start_station)
+    
+    # display most commonly used end station
+    end_station = df['End Station'].value_counts().idxmax()
+    print('\nDuring the selected range the most common End Station is...\n')
+    print('    ' + end_station)
+    
+    # display most frequent combination of start station and end station trip
+    combi_station = df.value_counts(['Start Station', 'End Station']).idxmax()
+    print('\nDuring the selected range the most common combination of ')
+    print('Start and End stations is...\n')
+    print('    ' + ', '.join([str(i) for i in combi_station]))
+    
+    print('-'*40)
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-'*40)
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
 
-    # Get user confirmation
-    print('\nDo you want to visualize Travel Time Stats?\n')
-    print('press "n" to jump to the next option, press any key to continue.\n')
-    user_input = input()
-    if user_input != 'n':
-        print('\nCalculating Trip Duration...\n')
-        start_time = time.time()
+    print('\nCalculating Trip Duration...\n')
+    start_time = time.time()
+    
+    # Empty dictionaries for total travel time & mean time
+    travel_time = {}
+    mean_time = {}
+    
+    # Calculate total travel time
+    travel_time['seconds'] = round(df['Trip Duration'].sum(), 2)
+    travel_time['minutes'] = round(travel_time['seconds'] / 60, 2)
+    travel_time['hours'] = round(travel_time['minutes'] / 60, 2)
+    
+    # Display total travel time
+    print('For the selected range the total travel time is...\n')
+    print('-'* max(len(k) for k in travel_time))
+    for k in travel_time.keys():
+        print('{:<8} {:<8}'.format(k, travel_time[k]))
+    print('-'* max(len(k) for k in travel_time))
+    
+    # Calculate mean travel time
+    mean_time['seconds'] = round(df['Trip Duration'].mean(), 2)
+    mean_time['minutes'] = round(mean_time['seconds'] / 60, 2)
+    mean_time['hours'] = round(mean_time['minutes'] / 60, 2)
+    
+    # display mean travel time
+    print('\nFor the selected range the mean travel time is...\n')
+    print('-'* max(len(k) for k in mean_time))
+    for k in mean_time.keys():
+        print('{:<8} {:<8}'.format(k, mean_time[k]))
+    print('-'* max(len(k) for k in mean_time))
+    
+    print('-'*40)
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-'*40)
+    
+def user_stats(df):
+    """Displays statistics on bikeshare users."""
 
-        # Empty dictionaries for total travel time & mean time
-        travel_time = {}
-        mean_time = {}
+    print('\nCalculating User Stats...\n')
+    start_time = time.time()
 
-        # Calculate total travel time
-        travel_time['seconds'] = round(df['Trip Duration'].sum(), 2)
-        travel_time['minutes'] = round(travel_time['seconds'] / 60, 2)
-        travel_time['hours'] = round(travel_time['minutes'] / 60, 2)
-        
-        # Display total travel time
-        print('For the selected range the total travel time is...\n')
-        print('-'* max(len(k) for k in travel_time))
-        for k in travel_time.keys():
-            print('{:<8} {:<8}'.format(k, travel_time[k]))
-        print('-'* max(len(k) for k in travel_time))
+    # Display counts of user types
 
-        # Calculate mean travel time
-        mean_time['seconds'] = round(df['Trip Duration'].mean(), 2)
-        mean_time['minutes'] = round(mean_time['seconds'] / 60, 2)
-        mean_time['hours'] = round(mean_time['minutes'] / 60, 2)
 
-        # display mean travel time
-        print('\nFor the selected range the mean travel time is...\n')
-        print('-'* max(len(k) for k in mean_time))
-        for k in mean_time.keys():
-            print('{:<8} {:<8}'.format(k, mean_time[k]))
-        print('-'* max(len(k) for k in mean_time))
+    # Display counts of gender
 
-        print('-'*40)
-        print("\nThis took %s seconds." % (time.time() - start_time))
-        print('-'*40)
+
+    # Display earliest, most recent, and most common year of birth
+
+
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-'*40)
 
 def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
         
-        describe_data(df)
-        time_stats(df)
-        station_stats(df)
-        trip_duration_stats(df)
+        func_dict = {describe_data : 'general insights',
+                time_stats : 'travel times', 
+                station_stats : 'station statistics', 
+                trip_duration_stats : 'trips duration'}
+        for k, f in func_dict.items():
+            print('\nDo you want to visualize ' + f + ' data?')
+            print('Enter "n" to jump to the next option. Enter any key to continue.\n')
+            user_input = input()
+            if user_input != 'n':
+                k(df)
+            else:
+                continue
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
