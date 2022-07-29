@@ -13,7 +13,7 @@ MONTH_DIC = { 0 :'all',
               3 :'march',
               4 :'april',
               5 :'may',
-              6 :'june', }
+              6 :'june' }
 
 WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
 
