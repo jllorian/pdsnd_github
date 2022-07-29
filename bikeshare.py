@@ -97,7 +97,6 @@ def load_data(city, month, day):
 
 def describe_data(df):
     # Shows a general insight about the selected data.
-
     print("\nDisplaying general insights")
     print('-'*40)
     start_time = time.time()
