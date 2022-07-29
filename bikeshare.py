@@ -95,7 +95,13 @@ def load_data(city, month, day):
     return df
 
 def describe_data(df):
-    # Shows a general insight about the selected data.
+    """
+    Shows a general insight about the selected data.
+
+    Arg:
+        (Dataframe) df - filtered data frame
+
+    """
 
     print("\nDisplaying general insights")
     print('-'*40)
@@ -121,10 +127,15 @@ def describe_data(df):
     print('-'*40)
 
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel.
+    """
+    Displays statistics on the most frequent times of travel.
     
     Usinge the mode of a distribution: value_counts() funtion and idxmax()
     instead of mode() to get only the value without type.
+    
+    Arg:
+        (Dataframe) df - filtered data frame
+        
     
     """
     
@@ -154,7 +165,13 @@ def time_stats(df):
     print('-'*40)
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
+    """
+    Displays statistics on the most popular stations and trip.
+    
+    Arg:
+        (Dataframe) df - filtered data frame
+        
+    """
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
@@ -180,7 +197,13 @@ def station_stats(df):
     print('-'*40)
 
 def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration."""
+    """
+    Displays statistics on the total and average trip duration.
+    
+    Arg:
+        (Dataframe) df - filtered data frame
+        
+    """
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
@@ -218,7 +241,13 @@ def trip_duration_stats(df):
     print('-'*40)
     
 def user_stats(df):
-    """Displays statistics on bikeshare users."""
+    """
+    Displays statistics on bikeshare users.
+
+    Arg:
+        (Dataframe) df - filtered data frame
+
+    """
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
@@ -256,6 +285,10 @@ def user_stats(df):
 def raw(df):
     """
     Displays 5 rows of raw data as user command.
+
+    Arg:
+        (Dataframe) df - filtered data frame
+
     """
 
     # Sort the DataFrame by Start Time
