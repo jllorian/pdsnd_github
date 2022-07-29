@@ -1,3 +1,4 @@
+from tabulate import tabulate
 import time
 import pandas as pd
 import numpy as np
@@ -261,18 +262,15 @@ def raw(df):
     # Sort the DataFrame by Start Time
     df = df.sort_index(axis=0)
     
-    # Start the counter:
-    num = 0
-
-    # Ask for input and loop the rows of data
-    while num <= df.shape[0]:
-        load = input('\nLoad 5 rows of raw data. Enter "y" to continue. Enter anything else to stop.\n')
-        if load.lower().strip() != 'y':
+    # Start the counter
+    i =+5
+    
+    # Less lines solution for this function inspired by Udacity reviewer.
+    while True:
+        display_data = input('\nWould you like to see 5 lines of raw data? Enter yes or no.\n')
+        if display_data.lower() != 'yes':
             break
-        print(df.iloc[0 + num:5 + num])
-        num += 5
-    if num >= df.shape[0]:
-        print('OMG! Have you cycled the data till the end? Please replace the "y" key on your keyboard.')
+        print(tabulate(df.iloc[np.arange(0+i,5+i)], headers ="keys"))
        
 def main():
     while True:
