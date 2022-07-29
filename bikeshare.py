@@ -37,7 +37,7 @@ def get_filters():
         print('Which city do you want to analyze? Options are: ' + ', '.join(CITY_DATA))
         print(' ')
         city = input()
-        if city not in CITY_DATA.keys():
+        if city.lower().strip() not in CITY_DATA.keys():
             print('\nUnavailable data. Please, check for typos.')
         else:
             break
@@ -253,6 +253,27 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+def raw(df):
+    """
+    Displays 5 rows of raw data as user command.
+    """
+
+    # Sort the DataFrame by Start Time
+    df = df.sort_index(axis=0)
+    
+    # Start the counter:
+    num = 0
+
+    # Ask for input and loop the rows of data
+    while num <= df.shape[0]:
+        load = input('\nLoad 5 rows of raw data. Enter "y" to continue. Enter anything else to stop.\n')
+        if load.lower().strip() != 'y':
+            break
+        print(df.iloc[0 + num:5 + num])
+        num += 5
+    if num >= df.shape[0]:
+        print('OMG! Have you cycled the data till the end? Please replace the "y" key on your keyboard.')
+       
 def main():
     while True:
         city, month, day = get_filters()
@@ -262,7 +283,8 @@ def main():
                      time_stats : 'travel times', 
                      station_stats : 'station statistics', 
                      trip_duration_stats : 'trips duration',
-                     user_stats : 'user'}
+                     user_stats : 'user',
+                     raw: 'raw'}
 
         for k, f in func_dict.items():
             print('\nDo you want to visualize ' + f + ' data?')
@@ -274,7 +296,7 @@ def main():
                 continue
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
+        if restart.lower().strip() != 'yes':
             break
 
 if __name__ == "__main__":
