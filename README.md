@@ -1,19 +1,22 @@
->**Note**: Please **fork** the current Udacity repository so that you will have a **remote** repository in **your** Github account. Clone the remote repository to your local machine. Later, as a part of the project "Post your Work on Github", you will push your proposed changes to the remote repository in your Github account.
-
 ### Date created
-Include the date you created this project and README file.
+May 9th, 2022
 
-### Project Title
-Replace the Project Title
+### US Bikeshare Data Analysis
 
 ### Description
-Describe what your project is about and what it does
+Python script to analyze US Bikeshare data from Chicago, New York City and Washington. With an example .csv file per city.
+
+The code will ask for user input before running each calculation.
 
 ### Files used
-Include the files used
+1. bikeshare.py with the code.
+2. instructions.md with the functions objectives.
+3. chicago.csv with 2017 first semester data.
+4. new_york_city.csv with 2017 first semester data.
+5. washington.csv with 2017 first semester data.
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
+Links to repos that inspired the code.
 
 https://stackoverflow.com/a/53311468
 https://stackoverflow.com/questions/55776571/how-to-split-a-date-column-into-separate-day-month-year-column-in-pandas
