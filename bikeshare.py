@@ -51,10 +51,10 @@ def get_filters():
         try:
             month = int(input())
         except ValueError:
-            print('\nPlease, enter a number between 0 and 12')
+            print('\nPlease, enter a number between 0 and 6')
             continue
-        if month not in MONTH_DIC.keys():
-            print('\nMonth should be a number ranged from 1 to 12. Use 0 for loading all.')
+        if month not in MONTH_DIC.keys() or month > 6:
+            print('\nMonth should be a number ranged from 1 to 6. Use 0 for loading all.')
         else:
             break
     print('\nYou have selected ' + MONTH_DIC[month].capitalize() + ' in ' + city.capitalize())
@@ -229,7 +229,7 @@ def user_stats(df):
     print(count_types)
 
     # Check shape to know if there's data available
-    if df.shape[1] < 6:
+    if df.shape[1] < 7:
         print('\nNo data available regarding age nor gender.')
     else:
         # Display counts of gender
