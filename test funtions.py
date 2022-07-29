@@ -31,7 +31,7 @@ def get_filters():
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!')
+    print('\nHello! Let\'s explore some US bikeshare data!')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     while True:
         print('Which city do you want to analyze? Options are: ' + ', '.join(CITY_DATA))
@@ -224,13 +224,31 @@ def user_stats(df):
     start_time = time.time()
 
     # Display counts of user types
+    print('For the selected range the counts of user types are...\n')
+    count_types = df.groupby(['User Type'])['User Type'].count()
+    print(count_types)
 
+    # Check shape to know if there's data available
+    if df.shape[1] < 6:
+        print('\nNo data available regarding age nor gender.')
+    else:
+        # Display counts of gender
+        print('\nFor the selected range the counts of gender are...\n')
+   
+        count_genders = df.groupby(['Gender'])['Gender'].count()
+        print(count_genders)
 
-    # Display counts of gender
-
-
-    # Display earliest, most recent, and most common year of birth
-
+        # Display earliest, most recent, and most common year of birth
+        print('\nFor the selected range the year of birth data is...\n')
+        oldest_user = df['Birth Year'].min()
+        youngest_user = df['Birth Year'].max()
+        mode_year = df.groupby(['Birth Year'])['Birth Year'].count().idxmax()
+        print('The oldest user born in: ')
+        print(oldest_user)
+        print('The youngst user born in: ')
+        print(youngest_user)
+        print('The most common year of birth is: ')
+        print(mode_year)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -241,9 +259,11 @@ def main():
         df = load_data(city, month, day)
         
         func_dict = {describe_data : 'general insights',
-                time_stats : 'travel times', 
-                station_stats : 'station statistics', 
-                trip_duration_stats : 'trips duration'}
+                     time_stats : 'travel times', 
+                     station_stats : 'station statistics', 
+                     trip_duration_stats : 'trips duration',
+                     user_stats : 'user'}
+
         for k, f in func_dict.items():
             print('\nDo you want to visualize ' + f + ' data?')
             print('Enter "n" to jump to the next option. Enter any key to continue.\n')
