@@ -1,3 +1,4 @@
+from tabulate import tabulate
 import time
 import pandas as pd
 import numpy as np
@@ -12,13 +13,7 @@ MONTH_DIC = { 0 :'all',
               3 :'march',
               4 :'april',
               5 :'may',
-              6 :'june',
-              7 :'july',
-              8 :'august',
-              9 :'september',
-              10 :'october',
-              11 :'november',
-              12 :'december' }
+              6 :'june', }
 
 WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
 
@@ -53,7 +48,7 @@ def get_filters():
         except ValueError:
             print('\nPlease, enter a number between 0 and 6')
             continue
-        if month not in MONTH_DIC.keys() or month > 6:
+        if month not in MONTH_DIC.keys():
             print('\nMonth should be a number ranged from 1 to 6. Use 0 for loading all.')
         else:
             break
@@ -294,18 +289,15 @@ def raw(df):
     # Sort the DataFrame by Start Time
     df = df.sort_index(axis=0)
     
-    # Start the counter:
-    num = 0
-
-    # Ask for input and loop the rows of data
-    while num <= df.shape[0]:
-        load = input('\nLoad 5 rows of raw data. Enter "y" to continue. Enter anything else to stop.\n')
-        if load.lower().strip() != 'y':
+    # Start the counter
+    i =+5
+    
+    # Less lines solution for this function inspired by Udacity reviewer.
+    while True:
+        display_data = input('\nWould you like to see 5 lines of raw data? Enter yes or no.\n')
+        if display_data.lower() != 'yes':
             break
-        print(df.iloc[0 + num:5 + num])
-        num += 5
-    if num >= df.shape[0]:
-        print('OMG! Have you cycled the data till the end? Please replace the "y" key on your keyboard.')
+        print(tabulate(df.iloc[np.arange(0+i,5+i)], headers ="keys"))
        
 def main():
     while True:
