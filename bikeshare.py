@@ -13,13 +13,7 @@ MONTH_DIC = { 0 :'all',
               3 :'march',
               4 :'april',
               5 :'may',
-              6 :'june',
-              7 :'july',
-              8 :'august',
-              9 :'september',
-              10 :'october',
-              11 :'november',
-              12 :'december' }
+              6 :'june', }
 
 WEEK_DAYS = ['all', 'monday', 'tuesday', 'wedensday', 'thursday', 'friday', 'saturday', 'sunday']
 
@@ -54,7 +48,7 @@ def get_filters():
         except ValueError:
             print('\nPlease, enter a number between 0 and 6')
             continue
-        if month not in MONTH_DIC.keys() or month > 6:
+        if month not in MONTH_DIC.keys():
             print('\nMonth should be a number ranged from 1 to 6. Use 0 for loading all.')
         else:
             break
